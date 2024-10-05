@@ -23,11 +23,14 @@ func main() {
 
 	go func() {
 		for {
+			year, month, day := time.Now().Date()
+			nextTime := time.Date(year, month, day+1, 12, 0, 0, 0, time.Local)
+			time.Sleep(time.Until(nextTime))
+
 			err := b.SendImages()
 			if err != nil {
 				println(err.Error())
 			}
-			time.Sleep(time.Hour * 24)
 		}
 	}()
 

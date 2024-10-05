@@ -51,10 +51,11 @@ func (b *Bot) SendImages() error {
 		if err != nil {
 			return err
 		}
-		_, err = b.bot.SendMediaGroup(tgbotapi.NewMediaGroup(channel, []interface{}{
-			tgbotapi.NewInputMediaPhoto(image),
-		}))
 
+		media := tgbotapi.NewInputMediaPhoto(image)
+		media.Caption = "Цикадочки"
+
+		_, err = b.bot.SendMediaGroup(tgbotapi.NewMediaGroup(channel, []interface{}{media}))
 		if err != nil {
 			return err
 		}
