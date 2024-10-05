@@ -21,6 +21,20 @@ func (b *Bot) Run() {
 	updates := b.bot.GetUpdatesChan(b.updateConfig)
 
 	for update := range updates {
+
+		if update.MyChatMember != nil {
+			if update.MyChatMember.NewChatMember.CanPostMessages {
+				if !slices.Contains(b.data.Channels, update.MyChatMember.Chat.ID) {
+					b.data.Channels = append(b.data.Channels, update.MyChatMember.Chat.ID)
+				}
+			} else {
+				index := slices.Index(b.data.Channels, update.MyChatMember.Chat.ID)
+				if index != -1 {
+					b.data.Channels = slices.Delete(b.data.Channels, index, index)
+				}
+			}
+			continue
+		}
 		if update.Message == nil {
 			continue
 		}
